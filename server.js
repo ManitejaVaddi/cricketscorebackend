@@ -11,27 +11,24 @@ import matchSummaryRouter from "./routes/matchSummaryRoute.js";
 dotenv.config();
 
 const app = express();
+const dbuser = encodeURIComponent(process.env.DBUSER);
+const dbpass = encodeURIComponent(process.env.DBPASS);
+
 
 // Middleware
 app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 
 // MongoDB Connection
-const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/cricketApp";
 
 mongoose
-  .connect(MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
+  .connect(
+    `mongodb+srv://${dbuser}:${dbpass}@cluster0.q4bst5v.mongodb.net/cricketApp?retryWrites=true&w=majority&appName=Cluster0`
+  )
   .then(() => {
-    console.log(" MongoDB connected");
-    app.listen(5000, () => {
-      console.log(" Server started on http://localhost:5000");
+    app.listen(8080, () => {
+      console.log("Server started");
     });
-  })
-  .catch((err) => {
-    console.error("DB connection failed:", err.message);
   });
 
 app.use("/api/users", userRouter);
