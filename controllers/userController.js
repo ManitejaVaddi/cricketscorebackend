@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 const SECRET = process.env.JWT_SECRET || "something";
 
 const register = async (req, res) => {
+  console.log("Register Request Body:", req.body);
   try {
     const { firstName, lastName, email, password } = req.body;
 
@@ -20,7 +21,7 @@ const register = async (req, res) => {
       password: hashedPwd,
     });
 
-    res.status(201).json(user);
+    res.status(201).json({ message: "User registered successfully", user });
   } catch (err) {
     console.error("Register Error:", err);
     res.status(500).json({ message: "Server error" });

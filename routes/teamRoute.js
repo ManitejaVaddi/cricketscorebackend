@@ -3,7 +3,7 @@ import { createTeam, getAllTeams } from "../controllers/teamController.js";
 
 const router = express.Router();
 
-router.post("/", createTeam);        // POST /api/teams
-router.get("/", getAllTeams);        // GET /api/teams
+router.post("/", createTeam);       
+router.get("/", getAllTeams);       
 
 export default router;

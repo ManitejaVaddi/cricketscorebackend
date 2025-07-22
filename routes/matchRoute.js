@@ -5,24 +5,21 @@ import {
   tossMatch,
   updateScore,
   deleteMatch,
+  saveMatchSummary,
+  getMatchSummaries,
 } from "../controllers/matchController.js";
 import auth from "../middleware/auth.js";
 
 const router = express.Router();
 
-// Create a new match
+
 router.post("/", auth, createMatch);
-
-// Get all matches
 router.get("/", auth, getAllMatches);
-
-// Toss: choose team who won the toss
 router.post("/toss", auth, tossMatch);
-
-// Update score: runs, wickets, overs, etc.
 router.put("/score", auth, updateScore);
-
-// Delete a match
 router.delete("/:id", auth, deleteMatch);
+
+router.post("/summary", auth, saveMatchSummary);
+router.get("/summaries", auth, getMatchSummaries);
 
 export default router;

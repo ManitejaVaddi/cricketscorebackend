@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-const SECRET = "something"; // Make sure this matches your controller secret
+const SECRET = "something"; 
 
 const auth = (req, res, next) => {
   try {
@@ -12,7 +12,7 @@ const auth = (req, res, next) => {
     const token = authHeader.split(" ")[1];
     const decoded = jwt.verify(token, SECRET);
 
-    req.user = decoded.id; // You can store full decoded if needed
+    req.user = decoded.id; 
     next();
   } catch (err) {
     console.error("Auth error:", err);

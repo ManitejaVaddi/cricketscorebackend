@@ -4,27 +4,42 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import userRouter from "./routes/userRoute.js";
-import matchRouter from "./routes/matchRoute.js"; 
+import matchRouter from "./routes/matchRoute.js";
 import teamRouter from "./routes/teamRoute.js";
+import matchSummaryRouter from "./routes/matchSummaryRoute.js";
 
 dotenv.config();
+
 const app = express();
-app.use(cors());
+
+// Middleware
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 app.use(express.json());
 
-const dbuser = encodeURIComponent(process.env.DBUSER);
-const dbpass = encodeURIComponent(process.env.DBPASS);
+// MongoDB Connection
+const MONGO_URI = process.env.MONGO_URI || "mongodb://localhost:27017/cricketApp";
 
-mongoose.connect(`mongodb://localhost:27017/cricketApp`).then(() => {
-  app.listen(5000, () => {
-    console.log("Server started on port 5000");
+mongoose
+  .connect(MONGO_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    console.log(" MongoDB connected");
+    app.listen(5000, () => {
+      console.log(" Server started on http://localhost:5000");
+    });
+  })
+  .catch((err) => {
+    console.error("DB connection failed:", err.message);
   });
-}).catch((err) => {
-  console.error(" DB connection failed:", err);
-});
 
-// Routes
 app.use("/api/users", userRouter);
-app.use("/api/matches", matchRouter); 
-app.use("/api/teams",teamRouter);  
+app.use("/api/matches", matchRouter);
+app.use("/api/teams", teamRouter);
+app.use("/api/match-summaries", matchSummaryRouter); 
+
+app.get("/", (req, res) => {
+  res.send(" Cricket Score Backend is running...");
+});
 
