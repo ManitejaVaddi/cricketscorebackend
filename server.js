@@ -13,8 +13,16 @@ const app = express();
 const dbuser = encodeURIComponent(process.env.DBUSER);
 const dbpass = encodeURIComponent(process.env.DBPASS);
 
+// ✅ CORS Configuration — allow local dev + deployed frontend
+app.use(cors({
+  origin: [
+    "http://localhost:3000", // local dev
+    "https://your-frontend-name.vercel.app" // 🚨 replace with actual Vercel frontend URL
+  ],
+  credentials: true
+}));
+
 // Middleware
-app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
