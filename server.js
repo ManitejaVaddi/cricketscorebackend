@@ -23,8 +23,9 @@ mongoose
     `mongodb+srv://${dbuser}:${dbpass}@cluster0.q4bst5v.mongodb.net/cricketApp?retryWrites=true&w=majority&appName=Cluster0`
   )
   .then(() => {
-    app.listen(8080, () => {
-      console.log("Server started on port 8080");
+    const PORT = process.env.PORT || 8080;
+    app.listen(PORT, () => {
+      console.log(`Server started on port ${PORT}`);
     });
   })
   .catch((err) => {
