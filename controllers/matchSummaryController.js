@@ -1,8 +1,9 @@
 import MatchSummary from "../models/matchSummaryModel.js";
 
+// controllers/matchController.js
 export const saveMatchSummary = async (req, res) => {
   try {
-    const newSummary = new MatchSummary(req.body);
+    const newSummary = new MatchSummary(req.body); // body should now contain innings with balls
     const saved = await newSummary.save();
     res.status(201).json(saved);
   } catch (error) {
